@@ -90,8 +90,8 @@ public abstract class WheelOfFortune extends Game {
      * Judge whether a letter matches any letter inside the chosen phrase,
      * and modifies the partially hidden phrase if there is a match.
      *
-     * @param lowercaseLetterInput the lowercase of the letter which was entered by player
-     * @param originalPhrase the StringBuilder version of the original chosen phrase
+     * @param  phrase original chosen phrase
+     * @param  letterInput letter which was entered by player
      * @return matching result (true or false)
      */
     public boolean processGuess(String phrase, char letterInput) {
