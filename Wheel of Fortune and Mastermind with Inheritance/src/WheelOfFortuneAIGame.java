@@ -130,8 +130,6 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
         if(numbersPlayed!=0 && numbersPlayed>=phraseListSize){
             System.out.println("All games are played for player" + currentPlayer.playerId() + ".\n");
             phraseListSize=0;
-            System.out.println("numbersPlayed:"+numbersPlayed);
-            System.out.println("indexOfPlayer"+indexOfPlayer);
             numbersPlayed=0;
             indexOfPlayer++;
             reset();
