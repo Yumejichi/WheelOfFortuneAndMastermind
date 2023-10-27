@@ -4,7 +4,7 @@ import java.util.*;
  * record all the scores for each play for all games(all users)
  */
 public class AllGamesRecord{
-    private List<GameRecord> allScores;
+    protected List<GameRecord> allScores;
     public AllGamesRecord(){
         this.allScores = new ArrayList<>();
     }
