@@ -197,7 +197,6 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
      */
     @Override
     public void reset() {
-        this.phrase = "";
         this.previousGuesses = "";
         this.indexOfPhrase=new ArrayList<>();
         this.chance = 10;
@@ -246,7 +245,8 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
         System.out.println(record);  // or call specific functions of record
 
         //display highGameList
-        System.out.println("highGameList: "+record.highGameList(hangmanUserGame.numbersPlayed));
+        int n = 2;
+        System.out.println("highGameList: "+record.highGameList(n));
 
 
         //display average of games

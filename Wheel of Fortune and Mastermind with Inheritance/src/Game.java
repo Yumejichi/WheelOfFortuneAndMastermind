@@ -22,7 +22,6 @@ public abstract class Game implements WheelOfFortunePlayer{
             allRecords.add(record);
             gameNumber++;
         }
-
         return allRecords;
     }
 
