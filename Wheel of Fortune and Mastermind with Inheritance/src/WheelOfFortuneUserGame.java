@@ -246,8 +246,9 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
 
         //display highGameList
         int n = 2;
-        System.out.println("highGameList: "+record.highGameList(n));
-
+        if(n>=2) {
+            System.out.println("highGameList: " + record.highGameList(n));
+        }
 
         //display average of games
         float average = (float)record.average();
