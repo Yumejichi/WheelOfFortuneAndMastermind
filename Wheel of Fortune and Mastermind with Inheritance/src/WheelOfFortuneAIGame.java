@@ -258,11 +258,11 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
         System.out.println(record);  // or call specific functions of record
 
         //display highGameList(for two games?)
-        System.out.println(record.highGameList("UnintelligentBotPlayer", hangmanUserGame.phraseListSize));
+        System.out.println("highGameList: "+record.highGameList("UnintelligentBotPlayer", hangmanUserGame.phraseListSize));
 
-        System.out.println(record.highGameList("NormalBotPlayer", hangmanUserGame.phraseListSize));
+        System.out.println("highGameList: "+record.highGameList("NormalBotPlayer", hangmanUserGame.phraseListSize));
 
-        System.out.println(record.highGameList("IntelligentBotPlayer", hangmanUserGame.phraseListSize));
+        System.out.println("highGameList: "+record.highGameList("IntelligentBotPlayer", hangmanUserGame.phraseListSize));
 
 
         //display average of games

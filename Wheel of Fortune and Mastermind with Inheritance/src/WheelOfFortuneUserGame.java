@@ -272,7 +272,7 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
         System.out.println(record);  // or call specific functions of record
 
         //display highGameList
-        record.highGameList(hangmanUserGame.numbersPlayed);
+        System.out.println("highGameList: "+record.highGameList(hangmanUserGame.numbersPlayed));
 
 
         //display average of games
