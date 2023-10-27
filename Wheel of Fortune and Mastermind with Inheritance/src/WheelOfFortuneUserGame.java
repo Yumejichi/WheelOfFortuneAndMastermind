@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -6,53 +8,30 @@ import java.util.Scanner;
  * Once a particular phrase is used, it should be discarded from the phrase list so it isn’t chosen again.
  * The class should implement the play() and playNext() methods from Game in order to make these things happen.
  */
-
 public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFortunePlayer{
 
-
-    @Override
-    public AllGamesRecord playAll() {
-        AllGamesRecord allRecords = new AllGamesRecord();
-        boolean gameIsValid = true;
-        //plays a set of games
-        while(gameIsValid){
-            //get if to play the next game
-            boolean playNext = playNext();
-            GameRecord record = play();
-            allRecords.add(record);
-
-            //stop when the user requires or all the phrases are played
-            if(!playNext){
-                gameIsValid = false;
-            }
-        }
-
-        return allRecords;
-    }
+    private String userAnswer = "";
+    private String currentPlayer = "";
 
     @Override
     public GameRecord play() {
         GameRecord record = new GameRecord();
 
-        record.setPlayerId(playerId());
-
-
+        //if the previous player was not same, set the player id
+        if(numbersPlayed==0 || !userAnswer.equals("y")){
+            currentPlayer = playerId();
+        }
+        record.setPlayerId(currentPlayer);
 
         //get a random phrase
         readPhrases();
 
-        //decide the chances and record how many misses
-        int chance = (phrase.length())/2;
-        if(chance>10){
-            chance = 10;
-        }
-        int miss = 0;
-
         //display the instructions
-        instruction(chance);
+        if(!userAnswer.equals("y")){
+            instruction(chance);
+        }
 
-
-        //replace the phrase with *(get the hiddenphrase)
+        //replace the phrase with *(get the hidden phrase)
         getHiddenPhrase();
 
         // define a boolean to record if to continue to guess
@@ -74,7 +53,6 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
             //count misses / remain chances and record the score
 
             if (matchResult == false) {
-                chance--;
                 miss++;
             }
 
@@ -84,19 +62,23 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
             //print out the hidden phrase with correctly guessed letters and the times of misses and left chances.
             System.out.println("The phrase with correctly guessed letters: " + hiddenPhrase);
             System.out.println("All letters guessed before: " + previousGuesses);
-            System.out.println("Status: Miss: " + miss + ", Left chance: " + chance);
+            System.out.println("Status: Miss: " + miss + ", Left chance: " + (chance-miss));
             System.out.println();
 
 
             //if all letters are guessed, finish the game
             if (hiddenPhrase.indexOf("*") == -1) {
-                System.out.println("\nCongratulations! You have successfully guessed all letters!");
+                System.out.println("Congratulations! You have successfully guessed all letters!\n");
+                System.out.println("Your score is "+ (chance-miss)+"\n");
+                System.out.println("-----------------------------------------------------------------");
+                System.out.println("-----------------------------------------------------------------");
                 continueGuess=false;
             }
 
             //if the player run out all the chances, finish the game
-            if (chance == 0) {
-                System.out.println("\nI am sorry, you have ran out all of the chances. Try next time.");
+            if (chance-miss == 0) {
+                System.out.println("\nI am sorry, you have ran out all of the chances. Try next time.\n");
+                System.out.println("Your score is "+ (chance-miss)+"\n");
                 continueGuess=false;
             }
             //before ending the play, set records
@@ -104,33 +86,47 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
             record.setScore(chance - miss);
 
         }
-
-
-
-
-        return null;
+        reset();
+        return record;
     }
 
+    /**
+     * get the next guess
+     * @return a letter
+     */
     @Override
     public boolean playNext() {
         //if the player wants to end the game then finish
         Scanner scanner = new Scanner(System.in);
-        if(numbersPlayed>1) {
-            System.out.println("Do you want to continue playing? enter y to continue, enter n to end the game");
-            String userAnswer = scanner.nextLine();
-            if(userAnswer.equals("n")){
-                return false;
-            }
+        //if it's the first time to play, return true
+        if(numbersPlayed==0){
+            numbersPlayed++;
+            return true;
         }
 
         //if all phrases are chosen, then finish
         if(numbersPlayed>=phraseListSize){
+            System.out.println("All games are played.");
             return false;
         }
 
+        if(numbersPlayed>0) {
+            System.out.println("Do you want to continue playing? enter y to continue, enter n to end the game");
+            userAnswer = scanner.nextLine();
+            if(userAnswer.equals("n")){
+                numbersPlayed=0;
+                return false;
+            }
+        }
+        numbersPlayed++;
         return true;
     }
 
+    /**
+     * pet the guess
+     * @param previousGuesses previous guessed letters
+     * @return a letter
+     */
     @Override
     public char getGuess(String previousGuesses) {
         char letterInput;
@@ -170,11 +166,21 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
     }
 
     @Override
-    public char nextGuess() {
+    /**
+     * get the next guess (but not used in this class)
+     * @param hiddenPhrase a hidden phrase
+     * @param previousGuesses  previous guessed letters
+     * @return a letter
+     */
+    public char nextGuess(StringBuilder hiddenPhrase, String previousGuesses){
         return 0;
     }
 
     @Override
+    /**
+     * ger the player ID
+     * @param player ID
+     */
     public String playerId() {
         String plyerId = "";
 
@@ -186,30 +192,56 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
         return plyerId;
     }
 
+    /**
+     * reset the data members
+     */
     @Override
     public void reset() {
+        this.phrase = "";
+        this.previousGuesses = "";
+        this.indexOfPhrase=new ArrayList<>();
+        this.chance = 10;
+        this.miss = 0;
 
     }
 
+
+    /**
+     * returns a string that "textually represents" this object.
+     * @return a string representation of the object
+     */
     @Override
     public String toString() {
         return "WheelOfFortuneUserGame{" +
-                "phrase='" + phrase + '\'' +
-                ", hiddenPhrase=" + hiddenPhrase +
-                ", previousGuesses='" + previousGuesses + '\'' +
-                ", phraseListSize=" + phraseListSize +
-                ", indexOfPhrase=" + indexOfPhrase +
-                ", numbersPlayed=" + numbersPlayed +
-                ", records=" + records +
+                "userAnswer='" + userAnswer + '\'' +
+                ", currentPlayer='" + currentPlayer + '\'' +
                 '}';
     }
 
 
+    /**
+     * The equals method implements an equivalence relation on non-null object references.
+     * @param o obj to compare
+     * @return true or false
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        WheelOfFortuneUserGame that = (WheelOfFortuneUserGame) o;
+        return Objects.equals(userAnswer, that.userAnswer) && Objects.equals(currentPlayer, that.currentPlayer);
+    }
 
+
+    /**
+     * set the instruction for players
+     * @param chance chances
+     */
     public void instruction(int chance){
         //show instructions
         System.out.println("---------------------------------How to play---------------------------------");
-        System.out.println("Please guess letters in the below hidden phrase.(Shorter phrase has less chances)");
+        System.out.println("Please guess letters in the below hidden phrase.");
 
 
         //show instructions of how to play
@@ -239,11 +271,13 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
         AllGamesRecord record = hangmanUserGame.playAll();
         System.out.println(record);  // or call specific functions of record
 
-        //display highGameList(for two games?)
+        //display highGameList
+        record.highGameList(hangmanUserGame.numbersPlayed);
+
 
         //display average of games
-
-
+        float average = (float)record.average();
+        System.out.println("Average score of all games is: "+ average);
 
     }
 

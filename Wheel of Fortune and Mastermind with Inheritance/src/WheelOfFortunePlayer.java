@@ -1,13 +1,16 @@
 /**
- * This interface define methods needed by all WheelOfFortunePlayers:
+ * This interface define methods needed by all WheelOfFortunePlayers
  */
-
 public interface WheelOfFortunePlayer {
+
+
     /**
-     * get the next guess from the player
-     * @return next gues
+     * get the next guess
+     * @param hiddenPhrase a hidden phrase
+     * @param previousGuesses  previous guessed letters
+     * @return a letter
      */
-    public char nextGuess();
+    public char nextGuess(StringBuilder hiddenPhrase, String previousGuesses);
 
     /**
      * set an id for the player
@@ -19,4 +22,5 @@ public interface WheelOfFortunePlayer {
      *  reset the player to start a new game
      */
     public void reset();
+
 }

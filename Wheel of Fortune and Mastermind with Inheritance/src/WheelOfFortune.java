@@ -3,40 +3,38 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
- *
+ * class Game will encapsulate the code for looping through
+ * a set of games and recording the results.
  */
-
 public abstract class WheelOfFortune extends Game {
+    protected String phrase;
+    protected StringBuilder hiddenPhrase;
+    protected String previousGuesses;
 
-    public String phrase;
-    public StringBuilder hiddenPhrase;
-    public String previousGuesses;
+    protected int phraseListSize;
 
-    public int phraseListSize;
+    protected ArrayList<Integer> indexOfPhrase;
 
-    public ArrayList<Integer> indexOfPhrase;
-
-    public int numbersPlayed;
+    protected int chance;
+    protected int miss;
+    protected int  numbersPlayed;
 
 
     public WheelOfFortune() {
         this.phrase = "";
         this.previousGuesses = "";
         this.indexOfPhrase=new ArrayList<>();
-        numbersPlayed = 0;
+        this.chance = 10;
+        this.miss = 0;
+        this.numbersPlayed=0;
     }
 
     /**
-     * readPhrases
-     */
-
-    /**
-     * Choose a random phrase from a given list.
-     * put that code into a method that reads the phrases() from the file and returns an arrayList of Strings.
-     * The idea is now you'll loop through and play all()phrases and keep score.
+     * read phrase from a given list.
      */
     public void readPhrases() {
         List<String> phraseList = null;
@@ -46,29 +44,27 @@ public abstract class WheelOfFortune extends Game {
         } catch (IOException e) {
             System.out.println(e);
         }
-
-
         // Get a random phrase from the list
         randomPhrase(phraseList);
     }
 
+
     /**
      * get random phrase
+     * @param phraseList a list of a string
      */
     public void randomPhrase(List<String> phraseList) {
-
         // Get a random phrase from the list
         Random rand = new Random();
         phraseListSize=phraseList.size();
         int r = rand.nextInt(phraseListSize); // gets 0, 1, or 2//link to file or something
         this.phrase = phraseList.get(r);
+        //phraseList.remove();
     }
 
 
     /**
      * getHiddenPhrase
-     */
-    /**
      * Generate the initial hidden phrase chosen from the list.
      */
     public void getHiddenPhrase(){
@@ -84,12 +80,8 @@ public abstract class WheelOfFortune extends Game {
     }
 
     /**
-     * processGuess
-     */
-    /**
      * Judge whether a letter matches any letter inside the chosen phrase,
      * and modifies the partially hidden phrase if there is a match.
-     *
      * @param  phrase original chosen phrase
      * @param  letterInput letter which was entered by player
      * @return matching result (true or false)
@@ -108,12 +100,12 @@ public abstract class WheelOfFortune extends Game {
             System.out.println("This letter is not in the phrase. You lost 1 chance.");
             matchResult = false;
         } else {
-            //when the input letter is new and correct, check the phrase and replace * where matches and set the match result as true
+            //when the input letter is new and correct,
+            // check the phrase and replace * where matches and set the match result as true
             char ch;
             for (int i = 0; i < phrase.length(); i++) {
 
                 ch = lowercasePhrase.charAt(i);
-
                 //check if the element looking at is a letter
                 if (Character.isLetter(ch)) {
                     //check if the guessed letter is right, if so, replace * with the original letter
@@ -131,9 +123,43 @@ public abstract class WheelOfFortune extends Game {
     }
 
     /**
-     * which returns a char, thus requiring all concrete WheelOfFortune games to implement it.
+     * get the guess by the player
      */
     public abstract char getGuess(String previousGuesses);
 
+
+    /**
+     * returns a string that "textually represents" this object.
+     * @return a string representation of the object
+     */
+    @Override
+    public String toString() {
+        return "WheelOfFortune{" +
+                "phrase='" + phrase + '\'' +
+                ", hiddenPhrase=" + hiddenPhrase +
+                ", previousGuesses='" + previousGuesses + '\'' +
+                ", phraseListSize=" + phraseListSize +
+                ", indexOfPhrase=" + indexOfPhrase +
+                ", chance=" + chance +
+                ", miss=" + miss +
+                ", numbersPlayed=" + numbersPlayed +
+                '}';
+    }
+
+
+    /**
+     * The equals method implements an equivalence relation on non-null object references.
+     * @param o obj to compare
+     * @return true or false
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        WheelOfFortune that = (WheelOfFortune) o;
+        return phraseListSize == that.phraseListSize && chance == that.chance && miss == that.miss && numbersPlayed == that.numbersPlayed && Objects.equals(phrase, that.phrase) && Objects.equals(hiddenPhrase, that.hiddenPhrase) && Objects.equals(previousGuesses, that.previousGuesses) && Objects.equals(indexOfPhrase, that.indexOfPhrase);
+    }
 
 }
