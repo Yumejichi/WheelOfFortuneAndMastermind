@@ -235,32 +235,6 @@ public class WheelOfFortuneUserGame extends WheelOfFortune implements WheelOfFor
 
 
     /**
-     * set the instruction for players
-     * @param chance chances
-     */
-    public void instruction(int chance){
-        //show instructions
-        System.out.println("---------------------------------How to play---------------------------------");
-        System.out.println("Please guess letters in the below hidden phrase.");
-
-
-        //show instructions of how to play
-        System.out.println("You will have " + chance + " chances to guess what letters are in the phrase.");
-        System.out.println("You will see the phrase with new guessed letter once you enter the correct letter.");
-        System.out.println("You will not see the change in the phrase when you enter a wrong letter.");
-        System.out.println("When you guess a wrong letter, your will lose one chance.");
-        System.out.println("When you guess the same letter you missed before, you will not lose a chance.");
-        System.out.println("If you enter more than one letter, only the first letter will be considered.");
-        System.out.println("Let's start!");
-        System.out.println("-----------------------------------------------------------------------------");
-
-    }
-
-
-
-
-
-    /**
      * main method
      * WheelOfFortunedUserGame should allow the user to play until they quit or run out of phrases.
      * Both main’s should demonstrate the methods of GamesRecord to display results.

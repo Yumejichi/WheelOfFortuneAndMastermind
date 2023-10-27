@@ -162,4 +162,29 @@ public abstract class WheelOfFortune extends Game {
         return phraseListSize == that.phraseListSize && chance == that.chance && miss == that.miss && numbersPlayed == that.numbersPlayed && Objects.equals(phrase, that.phrase) && Objects.equals(hiddenPhrase, that.hiddenPhrase) && Objects.equals(previousGuesses, that.previousGuesses) && Objects.equals(indexOfPhrase, that.indexOfPhrase);
     }
 
+
+
+    /**
+     * set the instruction for players
+     * @param chance chances
+     */
+    public void instruction(int chance){
+        //show instructions
+        System.out.println("---------------------------------How to play---------------------------------");
+        System.out.println("Please guess letters in the below hidden phrase.");
+
+
+        //show instructions of how to play
+        System.out.println("You will have " + chance + " chances to guess what letters are in the phrase.");
+        System.out.println("You will see the phrase with new guessed letter once you enter the correct letter.");
+        System.out.println("You will not see the change in the phrase when you enter a wrong letter.");
+        System.out.println("When you guess a wrong letter, your will lose one chance.");
+        System.out.println("When you guess the same letter you missed before, you will not lose a chance.");
+        System.out.println("If you enter more than one letter, only the first letter will be considered.");
+        System.out.println("Highest score is "+ chance + ".");
+        System.out.println("Let's start!");
+        System.out.println("-----------------------------------------------------------------------------");
+
+    }
+
 }

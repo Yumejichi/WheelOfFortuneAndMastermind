@@ -52,6 +52,8 @@ public class WheelOfFortuneAIGame extends WheelOfFortune{
         //get a random phrase
         readPhrases();
 
+        instruction(chance);
+
         //replace the phrase with *(get the hidden phrase)
         getHiddenPhrase();
 
